@@ -10,6 +10,10 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+    plugins {
+        id("org.jetbrains.kotlin.multiplatform").version(extra["kotlin.version"] as String).apply(false)
+        id("org.jetbrains.compose").version(extra["compose.version"] as String).apply(false)
+    }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -19,6 +23,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Glass"
+rootProject.name = "KMPLiquidGlass"
 include(":backdrop")
-include(":catalog")
+include(":catalog:sharedUI")
+include(":catalog:androidApp")

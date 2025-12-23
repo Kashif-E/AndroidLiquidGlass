@@ -1,15 +1,35 @@
+# Gradle
 *.iml
 .gradle
 /local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
+build/
 /captures
-.externalNativeBuild
 .cxx
+
+# Android Studio / IntelliJ IDEA
+.idea/*
+
+# Kotlin
+.kotlin/
+*.kotlin_module
+
+# External Native Build
+.externalNativeBuild
+
+# macOS
+.DS_Store
+
+# Android
+*.apk
+*.ap_
+*.aab
+output-metadata.json
+/app/release/
+/catalog/release/
+
+# Backup files
+*.bak
+*.backup
+
+# Local properties
 local.properties

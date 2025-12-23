@@ -1,15 +1,49 @@
 plugins {
+    alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.compose.multiplatform)
     id("com.vanniktech.maven.publish")
+}
+
+kotlin {
+    androidTarget()
+
+    iosArm64()
+    iosSimulatorArm64()
+    iosX64()
+
+    jvmToolchain(21)
+
+    compilerOptions {
+        freeCompilerArgs.addAll(
+            "-Xcontext-parameters",
+            "-Xexpect-actual-classes"
+        )
+    }
+
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.ui)
+            }
+        }
+
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.androidx.compose.foundation)
+                implementation(libs.androidx.compose.ui)
+                implementation(libs.androidx.compose.ui.graphics)
+            }
+        }
+    }
 }
 
 android {
     namespace = "com.kyant.backdrop"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
     buildToolsVersion = "36.1.0"
 
     defaultConfig {
@@ -23,37 +57,23 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
+
     buildFeatures {
         compose = true
     }
 }
 
-kotlin {
-    jvmToolchain(21)
-    compilerOptions {
-        freeCompilerArgs.addAll(
-            "-Xcontext-parameters"
-        )
-    }
-}
-
-dependencies {
-    implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-}
-
 mavenPublishing {
     publishToMavenCentral()
-    signAllPublications()
+    // signAllPublications() // Disabled for local development - enable for release
 
-    coordinates("io.github.kyant0", "backdrop", "1.0.2")
+    coordinates("io.github.kashif", "backdropkmp", "0.0.8-alpha11")
 
     pom {
-        name.set("Backdrop")
-        description.set("Jetpack Compose blur and Liquid Glass effects")
+        name.set("BackdropKMP")
+        description.set("Compose Multiplatform blur and Liquid Glass effects")
         inceptionYear.set("2025")
-        url.set("https://github.com/Kyant0/AndroidLiquidGlass")
+        url.set("https://github.com/AKashif1/KMPLiquidGlass")
         licenses {
             license {
                 name.set("The Apache License, Version 2.0")
@@ -63,15 +83,15 @@ mavenPublishing {
         }
         developers {
             developer {
-                id.set("Kyant0")
-                name.set("Kyant")
-                url.set("https://github.com/Kyant0")
+                id.set("AKashif1")
+                name.set("Kashif")
+                url.set("https://github.com/AKashif1")
             }
         }
         scm {
-            url.set("https://github.com/Kyant0/AndroidLiquidGlass")
-            connection.set("scm:git:git://github.com/Kyant0/AndroidLiquidGlass.git")
-            developerConnection.set("scm:git:ssh://git@github.com/Kyant0/AndroidLiquidGlass.git")
+            url.set("https://github.com/AKashif1/KMPLiquidGlass")
+            connection.set("scm:git:git://github.com/AKashif1/KMPLiquidGlass.git")
+            developerConnection.set("scm:git:ssh://git@github.com/AKashif1/KMPLiquidGlass.git")
         }
     }
 }
