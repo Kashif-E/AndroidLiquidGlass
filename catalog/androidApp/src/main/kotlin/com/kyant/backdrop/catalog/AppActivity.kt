@@ -1,4 +1,4 @@
-package org.company.app.androidApp
+package com.kyant.backdrop.catalog
 
 import android.app.Activity
 import android.os.Bundle
