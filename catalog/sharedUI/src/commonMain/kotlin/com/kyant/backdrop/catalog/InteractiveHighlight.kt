@@ -1,7 +1,4 @@
-// InteractiveHighlight.kt
-// Cross-platform interactive highlight effect for liquid glass components
-
-package com.example.backdropdemo.components
+package com.kyant.backdrop.catalog
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.VectorConverter

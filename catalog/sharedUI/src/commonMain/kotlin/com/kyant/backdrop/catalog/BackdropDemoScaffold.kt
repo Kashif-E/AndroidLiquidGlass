@@ -28,11 +28,15 @@ import com.kyant.backdrop.backdrops.LayerBackdrop
 import com.kyant.backdrop.backdrops.layerBackdrop
 import com.kyant.backdrop.backdrops.rememberLayerBackdrop
 import com.kyant.backdrop.catalog.components.LiquidButton
-import com.preat.peekaboo.image.picker.SelectionMode
-import com.preat.peekaboo.image.picker.rememberImagePickerLauncher
-import com.preat.peekaboo.image.picker.toImageBitmap
+import com.kyant.backdrop.catalog.utils.toImageBitmap
+import com.mohamedrejeb.calf.io.readByteArray
+import com.mohamedrejeb.calf.picker.FilePickerFileType
+import com.mohamedrejeb.calf.picker.FilePickerSelectionMode
+import com.mohamedrejeb.calf.picker.rememberFilePickerLauncher
+import com.mohamedrejeb.calf.core.LocalPlatformContext
 import kmpliquidglass.catalog.sharedui.generated.resources.Res
 import kmpliquidglass.catalog.sharedui.generated.resources.lions
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -47,15 +51,19 @@ fun BackdropDemoScaffold(
     ) {
         var selectedImageBitmap: ImageBitmap? by remember { mutableStateOf(null) }
         val scope = rememberCoroutineScope()
+        val context = LocalPlatformContext.current
 
         val backdrop = rememberLayerBackdrop()
 
-        val singleImagePicker = rememberImagePickerLauncher(
-            selectionMode = SelectionMode.Single,
-            scope = scope,
-            onResult = { byteArrays ->
-                byteArrays.firstOrNull()?.let { byteArray ->
-                    selectedImageBitmap = byteArray.toImageBitmap()
+        val pickerLauncher = rememberFilePickerLauncher(
+            type = FilePickerFileType.Image,
+            selectionMode = FilePickerSelectionMode.Single,
+            onResult = { files ->
+                scope.launch {
+                    files.firstOrNull()?.let { file ->
+                        val byteArray = file.readByteArray(context)
+                        selectedImageBitmap = byteArray.toImageBitmap()
+                    }
                 }
             }
         )
@@ -103,7 +111,7 @@ fun BackdropDemoScaffold(
         }
 
         LiquidButton(
-            { singleImagePicker.launch() },
+            { pickerLauncher.launch() },
             backdrop,
             Modifier
                 .padding(16f.dp)

@@ -24,6 +24,6 @@ private object EmptyBackdrop : Backdrop {
         coordinates: LayoutCoordinates?,
         layerBlock: (GraphicsLayerScope.() -> Unit)?
     ) {
-        // Empty - draws nothing
+        // draws nothing
     }
 }

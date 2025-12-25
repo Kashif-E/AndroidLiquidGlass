@@ -105,7 +105,7 @@ fun AdaptiveLuminanceGlassContent(onBack: () -> Unit = {}) {
                         val targetRotation = rotation + gestureRotate
                         val targetOffset = offset + pan.rotateBy(targetRotation) * targetZoom
 
-                        // Update luminance based on position for demo effect
+
                         val normalizedY = (targetOffset.y / 500f).coerceIn(-1f, 1f)
                         val newLuminance = (0.5f + normalizedY * 0.3f).coerceIn(0.2f, 0.8f)
 

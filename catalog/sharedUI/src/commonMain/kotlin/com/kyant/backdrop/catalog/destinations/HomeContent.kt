@@ -1,7 +1,7 @@
 package com.kyant.backdrop.catalog.destinations
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.displayCutoutPadding
@@ -21,17 +21,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kyant.backdrop.catalog.CatalogDestination
 
+
 @Composable
 fun HomeContent(onNavigate: (CatalogDestination) -> Unit) {
-    val isLightTheme = !isSystemInDarkTheme()
-    val contentColor = if (isLightTheme) Color.Black else Color.White
+    val backgroundColor = Color(0xFFFFF8E7) // Warm cream color
+    val contentColor = Color(0xFF1A1A1A) // Near black for text
 
     Column(
         Modifier
+            .fillMaxSize()
+            .background(backgroundColor)
             .verticalScroll(rememberScrollState())
             .systemBarsPadding()
-            .displayCutoutPadding()
-            .fillMaxSize(),
+            .displayCutoutPadding(),
         verticalArrangement = Arrangement.spacedBy(16f.dp)
     ) {
         BasicText(
@@ -42,6 +44,7 @@ fun HomeContent(onNavigate: (CatalogDestination) -> Unit) {
 
         Column {
             Subtitle("Liquid glass components")
+            ListItem({ onNavigate(CatalogDestination.AllComponents) }, "All components")
             ListItem({ onNavigate(CatalogDestination.Buttons) }, "Buttons")
             ListItem({ onNavigate(CatalogDestination.Toggle) }, "Toggle")
             ListItem({ onNavigate(CatalogDestination.Slider) }, "Slider")
@@ -79,8 +82,7 @@ private fun ListItem(
     onClick: () -> Unit,
     label: String
 ) {
-    val isLightTheme = !isSystemInDarkTheme()
-    val contentColor = if (isLightTheme) Color.Black else Color.White
+    val contentColor = Color(0xFF1A1A1A) // Near black for text
 
     BasicText(
         label,

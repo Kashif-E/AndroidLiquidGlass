@@ -1,7 +1,4 @@
-// DragGestureInspector.kt
-// Cross-platform drag gesture detection utility
-
-package com.example.backdropdemo.components
+package com.kyant.backdrop.catalog
 
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown

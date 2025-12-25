@@ -95,7 +95,6 @@ class DampedDragAnimation(
 
     fun release() {
         animationScope.launch {
-            // Cross-platform: use delay instead of awaitFrame
             delay(16L)
             if (value != targetValue) {
                 val threshold = (valueRange.endInclusive - valueRange.start) * 0.025f

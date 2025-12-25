@@ -1,8 +1,3 @@
-// ProgressiveBlur.kt
-// Cross-platform progressive/gradient blur effect
-//
-// This provides a common API for progressive blur that fades from full blur to transparent.
-
 package com.kyant.backdrop.effects
 
 import androidx.compose.ui.graphics.Color

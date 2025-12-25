@@ -16,10 +16,22 @@ pluginManagement {
     }
 }
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
+        ivy {
+            name = "Node.js Distributions"
+            url = uri("https://nodejs.org/dist")
+            patternLayout {
+                artifact("v[revision]/[artifact](-v[revision]-[classifier]).[ext]")
+            }
+            metadataSources {
+                artifact()
+            }
+            content {
+                includeModule("org.nodejs", "node")
+            }
+        }
     }
 }
 
@@ -27,3 +39,5 @@ rootProject.name = "KMPLiquidGlass"
 include(":backdrop")
 include(":catalog:sharedUI")
 include(":catalog:androidApp")
+include(":catalog:desktopApp")
+include(":catalog:webApp")

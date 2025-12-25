@@ -18,4 +18,5 @@ enum class CatalogDestination {
     ScrollContainer,
     LazyScrollContainer,
     Playground,
+    AllComponents,
 }

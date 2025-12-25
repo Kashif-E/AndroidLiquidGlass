@@ -9,9 +9,19 @@ plugins {
 kotlin {
     androidTarget()
 
+
     iosArm64()
     iosSimulatorArm64()
     iosX64()
+
+
+    jvm("desktop")
+
+
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+    }
 
     jvmToolchain(21)
 
@@ -31,12 +41,36 @@ kotlin {
             }
         }
 
+        // Shared source set for Skia-based platforms (iOS + Desktop)
+        val skiaMain by creating {
+            dependsOn(commonMain)
+        }
+
         val androidMain by getting {
             dependencies {
                 implementation(libs.androidx.compose.foundation)
                 implementation(libs.androidx.compose.ui)
                 implementation(libs.androidx.compose.ui.graphics)
             }
+        }
+
+
+        val iosX64Main by getting {
+            dependsOn(skiaMain)
+        }
+        val iosArm64Main by getting {
+            dependsOn(skiaMain)
+        }
+        val iosSimulatorArm64Main by getting {
+            dependsOn(skiaMain)
+        }
+
+        val desktopMain by getting {
+            dependsOn(skiaMain)
+        }
+
+        val wasmJsMain by getting {
+            dependsOn(skiaMain)
         }
     }
 }
@@ -67,7 +101,6 @@ mavenPublishing {
     publishToMavenCentral()
     // signAllPublications() // Disabled for local development - enable for release
 
-    // Restored original coordinates and POM metadata (owner: Kyant0, artifact: backdrop)
     coordinates("io.github.kyant0", "backdrop", "0.0.8-alpha11")
 
     pom {

@@ -1,10 +1,4 @@
-// LiquidBottomTabs.kt
-// Cross-platform liquid glass bottom navigation tabs
-// 
-// This is a faithful port of the original Android LiquidBottomTabs component
-// for Compose Multiplatform (Android + iOS)
-
-package com.example.backdropdemo.components
+package com.kyant.backdrop.catalog
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.EaseOut

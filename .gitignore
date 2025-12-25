@@ -33,3 +33,9 @@ output-metadata.json
 
 # Local properties
 local.properties
+
+# Kotlin JS
+kotlin-js-store/
+
+# Scripts
+run-web.sh

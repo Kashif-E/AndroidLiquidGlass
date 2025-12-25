@@ -20,6 +20,21 @@ kotlin {
         }
     }
 
+    jvm("desktop") {
+        compilations.all {
+            compileTaskProvider.configure {
+                compilerOptions {
+                    jvmTarget.set(JvmTarget.JVM_17)
+                }
+            }
+        }
+    }
+
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+    }
+
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -29,9 +44,7 @@ kotlin {
             // Use local backdrop library
             implementation(project(":backdrop"))
             
-            implementation(libs.ksensor)
-            implementation(libs.peekaboo.image.picker)
-            implementation(libs.ui.backhandler)
+            implementation(libs.calf.file.picker)
             implementation(compose.runtime)
             implementation(compose.ui)
             implementation(compose.foundation)
@@ -45,6 +58,36 @@ kotlin {
 
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
+            implementation(libs.ksensor)
+        }
+
+        val skiaMain by creating {
+            dependsOn(commonMain.get())
+        }
+
+        val iosMain by creating {
+            dependsOn(skiaMain)
+            dependencies {
+                implementation(libs.ksensor)
+            }
+        }
+
+        iosX64Main.get().dependsOn(iosMain)
+        iosArm64Main.get().dependsOn(iosMain)
+        iosSimulatorArm64Main.get().dependsOn(iosMain)
+
+        val desktopMain by getting {
+            dependsOn(skiaMain)
+            dependencies {
+                implementation(libs.ui.backhandler)
+            }
+        }
+
+        val wasmJsMain by getting {
+            dependsOn(skiaMain)
+            dependencies {
+                implementation(libs.ui.backhandler)
+            }
         }
     }
 

@@ -55,15 +55,9 @@ import com.kyant.backdrop.highlight.Highlight
 import com.kyant.backdrop.highlight.HighlightStyle
 import kmpliquidglass.catalog.sharedui.generated.resources.Res
 import kmpliquidglass.catalog.sharedui.generated.resources.ic_cyclone
-import kotlinx.coroutines.flow.catch
+import com.kyant.backdrop.catalog.utils.rememberGravityAngle
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
-import org.kmp.shots.k.sensor.KSensor
-import org.kmp.shots.k.sensor.SensorData.Accelerometer
-import org.kmp.shots.k.sensor.SensorType
-import org.kmp.shots.k.sensor.SensorUpdate
-import kotlin.math.PI
-import kotlin.math.atan2
 
 @Composable
 fun ControlCenterContent(onBack: () -> Unit = {}) {
@@ -104,29 +98,8 @@ fun ControlCenterContent(onBack: () -> Unit = {}) {
     }
     val maxDragHeight = 1000f
 
-    // Gravity angle for highlight effect - updated by accelerometer sensor
-    var gravityAngle by remember { mutableFloatStateOf(45f) }
-    
-    // Use KSensor for accelerometer data
-    LaunchedEffect(Unit) {
-        KSensor.registerSensors(
-            types = listOf(SensorType.ACCELEROMETER),
-            locationIntervalMillis = 16L // ~60fps
-        )
-            .catch { /* Sensor not available, use default angle */ }
-            .collect { sensorUpdate ->
-                when (sensorUpdate) {
-                    is SensorUpdate.Data -> {
-                        val accel = sensorUpdate.data as? Accelerometer ?: return@collect
-                        // Smooth the angle using exponential moving average
-                        val alpha = 0.15f
-                        val newAngle = atan2(accel.y, accel.x) * (180f / PI.toFloat())
-                        gravityAngle = gravityAngle * (1f - alpha) + newAngle * alpha
-                    }
-                    is SensorUpdate.Error -> { /* Sensor error, keep using current angle */ }
-                }
-            }
-    }
+    // Gravity angle for highlight effect - updated by accelerometer sensor on mobile or mouse on desktop
+    val gravityAngle by rememberGravityAngle()
 
     val glassShape = { itemShape }
     val glassHighlight = {

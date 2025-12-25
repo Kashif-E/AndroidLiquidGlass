@@ -1,7 +1,4 @@
-// LiquidBottomTab.kt
-// Cross-platform liquid glass bottom tab item
-
-package com.example.backdropdemo.components
+package com.kyant.backdrop.catalog
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
